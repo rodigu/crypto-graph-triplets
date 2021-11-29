@@ -20,20 +20,4 @@ export async function getExchangeRate (currency:string = 'all') {
   return await renderData(currency);
 }
 
-export async function writeExchangeList (list:any) {
-  await Deno.writeTextFile('./validExchangeList.txt', JSON.stringify(list));
-}
-
-export async function getExchangeList () {
-  return JSON.parse(await Deno.readTextFile('./validExchangeList.txt'))
-}
-
-export function createListFromData (data:Array<object>) {
-  let list:Array<string> = [];
-  for (let exchangeInfo of data) {
-    list.push(Object.values(exchangeInfo)[0]);
-  }
-  return list;
-}
-
 // console.log(await getExchangeRate());
