@@ -28,6 +28,7 @@ The binance API does not seem to have a rime or reason for the order of currency
 It makes sense, for instance, to only provide `ETHBTC` but not `BTCETH`, what I don't know is why one is chosen in favor of the other.
 Initially, we will be exploring the shape of the graph. Since our graphs will have no singletons, we don't need a set for vertices. All the information necessary for exploration will be in the set of edges.
 Any useful graph we make will most likely be connected.
+Not all currencies have three letter abbreviations.
 
 ### Questions
 *What percentage of trades do we expect to be profitable?*
