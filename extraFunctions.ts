@@ -4,28 +4,27 @@ export async function writeExchangeList (list:any) {
 }
 
 export async function getExchangeList () {
-  return JSON.parse(await Deno.readTextFile('./validExchangeList.txt'))
+  return [...await JSON.parse(await Deno.readTextFile('./validExchangeList.txt'))];
 }
 
-export function createListFromData (data:Array<object>) {
-  let list:Array<string> = [];
-  for (let exchangeInfo of data) {
-    list.push(Object.values(exchangeInfo)[0]);
-  }
-  return list;
-}
-
-// Graph building functions
-export function getNeighbors (vertice:string, list:Array<string>) {
-  const neighbors:Array<string> = [];
-  list.forEach(exchange => {
-    const currency1:string = exchange.slice(0, vertice.length);
-    const currency2:string = exchange.slice(exchange.length - vertice.length, exchange.length)
-    if (currency1 === vertice)
-      neighbors.push(currency2);
-    else if (currency2 === vertice)
-      neighbors.push(currency1);
+export async function getCompleteExchangeList (exchangeRates, info) {
+  let { symbols } = info;
+  let completeList = symbols.map(e=>{
+    return {symbol: e.symbol, base: e.baseAsset, quote: e.quoteAsset}
   });
 
-  return neighbors;
+  // pair exchange rates with symbols
+  let priceMap = {};
+  for (let trade of exchangeRates){
+    let {symbol,price} = trade;
+    priceMap[symbol] = price;
+  }
+
+  completeList.forEach(
+    element=>{
+      element.price = priceMap[element.symbol];
+    }
+  );
+
+  return completeList;
 }

@@ -3,6 +3,7 @@
 3. [Other References](#other-references)
 4. [Notes](#notes)
 5. [Questions](#questions)
+6. [Analysis](#analysis)
 
 ### Deno usage
 To import modules from the Deno REPL, use:
@@ -35,3 +36,17 @@ Not all currencies have three letter abbreviations.
 
 *What should be the selection criteria for the vertices in the graph?*
 - Get a graph A from the neighborhood of a big currency such as BTC, then create a graph from the neighborhood of A.
+
+### Analysis
+BTC has 399 neighbors:
+![Teminal Screenshot of BTC Neighbors](./img/neighborsBTC.png)
+
+### TODO
+Show graph
+Get all coins
+MaxClique algorithm
+- check if nodes in other set are independent
+- reference: https://www.geeksforgeeks.org/maximal-clique-problem-recursive-solution/
+set of candidates for independent set if its not zero
+- how many edges
+- if there are many edges what
