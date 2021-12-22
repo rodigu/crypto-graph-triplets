@@ -8,7 +8,14 @@ import("./extraFunctions.ts").then(r => ext = r);
 let exchangeRates = await api.getExchangeRate();
 
 // get list with trades and bases/quotes
-let data = await api.getExchangeInfo();
+let info = await api.getExchangeInfo();
+
+let data = await ext.getCompleteExchangeList(exchangeRates,info);
+
+ext.writeExchangeList(data.exchangeList)
+ext.writeCurrencyList(data.currencies)
+
+
 let { symbols } = data;
 let listWithSymbols = symbols.map(e=>{
   return {symbol: e.symbol, base: e.baseAsset, quote: e.quoteAsset}
