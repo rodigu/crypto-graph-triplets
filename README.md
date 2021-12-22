@@ -30,6 +30,9 @@ It makes sense, for instance, to only provide `ETHBTC` but not `BTCETH`, what I 
 Initially, we will be exploring the shape of the graph. Since our graphs will have no singletons, we don't need a set for vertices. All the information necessary for exploration will be in the set of edges.
 Any useful graph we make will most likely be connected.
 Not all currencies have three letter abbreviations.
+#### What is a bi-directional graph?
+Cryptocurrency exchange networks are bi-directional graphs because if you can trade currency A by B, you can also trade B by A.
+Say the weight of the vertice that connects A and B in the direction A to B is given by ![weight_formula](https://render.githubusercontent.com/render/math?math=w(A,B)). The weight of the same vertice going from B to A would be ![weight_formula](https://render.githubusercontent.com/render/math?math=w(B,A)=f(w(A,B))).
 
 ### Questions
 *What percentage of trades do we expect to be profitable?*
