@@ -1,3 +1,6 @@
+
+//------------------------------------------------------------------------
+
 // to import into the deno runtime
 let api;
 import("./req.ts").then(r => api = r);
@@ -11,6 +14,8 @@ let exchangeRates = await api.getExchangeRate();
 let info = await api.getExchangeInfo();
 
 let data = await ext.getCompleteExchangeList(exchangeRates,info);
+
+ext.writeNetworkMatrixCSV(data.exchangeList,data.currencies)
 
 ext.writeExchangeList(data.exchangeList)
 ext.writeCurrencyList(data.currencies)
