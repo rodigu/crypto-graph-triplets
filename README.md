@@ -80,10 +80,42 @@ This will yield:
 
 ![spring_layout](./img/spring_graph.png)
 
+The nodes pushed away in the periphery are strong contenders for the independet set. It seems likely that is possible to easily turn the network into a split graph.
+
+The following code will return the number of neighbors for any given currency:
+```js
+// list of currency neighbors, where CUR is the string code for a currency (ex. 'BTC')
+let cur_n = data.exchangeList.filter(e=>e.base===CUR || e.quote===CUR)
+// currencies that are not neighbors of CUR
+data.currency.filter(c=>!cur_n.filter(n=>n.base===c||n.quote===c).length)
+```
+As of 12/23, BTC has 405 neighbors. These are the 79 currencies with no edges to BTC:
+```
+[
+  "USDSB",   "BGBP",      "TUSDB",     "BULL",    "BEAR",
+  "ETHBULL", "ETHBEAR",   "EOSBULL",   "EOSBEAR", "XRPBULL",
+  "XRPBEAR", "BNBBULL",   "BNBBEAR",   "BTCUP",   "BTCDOWN",
+  "IQ",      "ETHUP",     "ETHDOWN",   "ADAUP",   "ADADOWN",
+  "LINKUP",  "LINKDOWN",  "VTHO",      "BNBUP",   "BNBDOWN",
+  "XTZUP",   "XTZDOWN",   "EOSUP",     "EOSDOWN", "TRXUP",
+  "TRXDOWN", "XRPUP",     "XRPDOWN",   "DOTUP",   "DOTDOWN",
+  "SWRV",    "LTCUP",     "LTCDOWN",   "CREAM",   "BURGER",
+  "SPARTA",  "UNIUP",     "UNIDOWN",   "SXPUP",   "SXPDOWN",
+  "FILUP",   "FILDOWN",   "YFIUP",     "YFIDOWN", "BCHUP",
+  "BCHDOWN", "KP3R",      "SLP",       "CVP",     "BCHA",
+  "HEGIC",   "AAVEUP",    "AAVEDOWN",  "COVER",   "GHST",
+  "SUSHIUP", "SUSHIDOWN", "XLMUP",     "XLMDOWN", "DF",
+  "DEXE",    "BETH",      "PROS",      "UFT",     "BIFI",
+  "PUNDIX",  "1INCHUP",   "1INCHDOWN", "SHIB",    "MASK",
+  "ERN",     "XEC",       "RAY",       "BVND"
+]
+```
+These might all be "special" currencies. BTCUP and BTCDOWN, for instance, are Binance's ["Leveraged Tokens"](https://www.binance.com/en/support/faq/360042957472).
+
 ### TODO
-Show graph
-Get all coins
-MaxClique algorithm
+- [x] Show graph
+- [x] Get all coins
+- [ ] MaxClique algorithm
 - check if nodes in other set are independent
 - reference: https://www.geeksforgeeks.org/maximal-clique-problem-recursive-solution/
 set of candidates for independent set if its not zero
