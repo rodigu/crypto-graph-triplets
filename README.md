@@ -78,7 +78,7 @@ plt.show()
 ```
 This will yield:
 
-![spring_layout]('https://github.com/rodigu/crypto-graph-triplets/blob/main/img/spring_graph.png')
+![spring_layout]('https://github.com/rodigu/crypto-graph-triplets/blob/main/img/spring_graph.png?raw=true')
 
 ### TODO
 Show graph
