@@ -7,6 +7,9 @@ import("./req.ts").then(r => api = r);
 let ext;
 import("./extraFunctions.ts").then(r => ext = r);
 
+let mc;
+import("./maxClique.ts").then(r => mc = r);
+
 // get exchange rates
 let exchangeRates = await api.getExchangeRate();
 
