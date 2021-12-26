@@ -3,23 +3,25 @@ export type ExchangeList = Array<{
   symbol:string, base:string, quote:string, price:string
 }>;
 
-export type EdgeMap = Array<{base:string,quote:string}>;
+export type Exchange = { base:string, quote:string, price?:string };
+
+export type EdgeMap = Array<Exchange>;
 
 // Functions for writing and reading the list of possible exchanges between currencies
 export async function writeExchangeList (list:any) {
-  await Deno.writeTextFile('./ExchangeList.txt', JSON.stringify(list));
+  await Deno.writeTextFile('./out/ExchangeList.txt', JSON.stringify(list));
 }
 
 export async function readExchangeList () {
-  return await JSON.parse(await Deno.readTextFile('./ExchangeList.txt'));
+  return await JSON.parse(await Deno.readTextFile('./out/ExchangeList.txt'));
 }
 
 export async function writeCurrencyList (list:any) {
-  await Deno.writeTextFile('./CurrencyList.txt', JSON.stringify(list));
+  await Deno.writeTextFile('./out/CurrencyList.txt', JSON.stringify(list));
 }
 
 export async function readCurrencyList () {
-  return [...await JSON.parse(await Deno.readTextFile('./ExchangeList.txt'))];
+  return [...await JSON.parse(await Deno.readTextFile('./out/ExchangeList.txt'))];
 }
 
 export async function writeCSV (rows:Array<Array<string|number>>) {
@@ -29,7 +31,7 @@ export async function writeCSV (rows:Array<Array<string|number>>) {
       csv += `${element + (i === row.length - 1 ? '\n' : ',')}`;
     });
   });
-  await Deno.writeTextFile('./networkMatrix.csv', csv);
+  await Deno.writeTextFile('./out/networkMatrix.csv', csv);
 }
 
 export async function writeNetworkMatrixCSV (exchangeList:ExchangeList, currencies:Array<string>) {
@@ -94,4 +96,25 @@ export function hasEdge (edgeMap:EdgeMap, base:string, quote:string):Boolean {
       return true;
   }
   return false;
+}
+
+export function getNonNeighbors (data:any, CUR:string) : Array<string> {
+  const cur_n = getNeighborExchanges(data, CUR);
+  // currencies that are not neighbors of CUR
+  return data.currencies.filter((c:string)=>!cur_n.filter(n=>n.base===c||n.quote===c).length);
+}
+
+export function getNeighbors (currency:string, exchangeList:ExchangeList) : Array<string> {
+  let neighbors:Array<string> = [];
+  exchangeList.forEach(exchange => {
+    if (currency === exchange.base) neighbors.push(exchange.quote);
+    if (currency === exchange.quote) neighbors.push(exchange.base);
+  });
+
+  return neighbors
+}
+
+export function getNeighborExchanges (data:any, CUR:string) : EdgeMap {
+  // list of currency neighbors, where CUR is the string code for a currency (ex. 'BTC')
+  return data.exchangeList.filter((e:Exchange)=>e.base===CUR || e.quote===CUR);
 }
