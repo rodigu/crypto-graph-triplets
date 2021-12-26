@@ -112,6 +112,37 @@ As of 12/23, BTC has 405 neighbors. These are the 79 currencies with no edges to
 ```
 These might all be "special" currencies. BTCUP and BTCDOWN, for instance, are Binance's ["Leveraged Tokens"](https://www.binance.com/en/support/faq/360042957472).
 
+12/25, one currency has been added to the list of BTC's non neighbors:
+```js
+> ext.getNonNeighbors(data,'BTC').length
+80
+> ext.getNonNeighbors(data,'BTC')
+[
+  "USDSB",   "BGBP",      "TUSDB",     "BULL",    "BEAR",
+  "ETHBULL", "ETHBEAR",   "EOSBULL",   "EOSBEAR", "XRPBULL",
+  "XRPBEAR", "BNBBULL",   "BNBBEAR",   "BTCUP",   "BTCDOWN",
+  "IQ",      "ETHUP",     "ETHDOWN",   "ADAUP",   "ADADOWN",
+  "LINKUP",  "LINKDOWN",  "VTHO",      "BNBUP",   "BNBDOWN",
+  "XTZUP",   "XTZDOWN",   "EOSUP",     "EOSDOWN", "TRXUP",
+  "TRXDOWN", "XRPUP",     "XRPDOWN",   "DOTUP",   "DOTDOWN",
+  "SWRV",    "LTCUP",     "LTCDOWN",   "CREAM",   "BURGER",
+  "SPARTA",  "UNIUP",     "UNIDOWN",   "SXPUP",   "SXPDOWN",
+  "FILUP",   "FILDOWN",   "YFIUP",     "YFIDOWN", "BCHUP",
+  "BCHDOWN", "KP3R",      "SLP",       "CVP",     "BCHA",
+  "HEGIC",   "AAVEUP",    "AAVEDOWN",  "COVER",   "GHST",
+  "SUSHIUP", "SUSHIDOWN", "XLMUP",     "XLMDOWN", "DF",
+  "DEXE",    "BETH",      "PROS",      "UFT",     "BIFI",
+  "PUNDIX",  "1INCHUP",   "1INCHDOWN", "SHIB",    "MASK",
+  "ERN",     "XEC",       "RAY",       "OOKI",    "BVND"
+]
+> ext.getNeighbors(data,'OOKI')
+[
+  { symbol: "OOKIBUSD", base: "OOKI", quote: "BUSD", price: "0.04750000" },
+  { symbol: "OOKIUSDT", base: "OOKI", quote: "USDT", price: "0.04748000" }
+]
+```
+OOKI's only neighbors are BUSD and USDT.
+
 ### TODO
 - [x] Show graph
 - [x] Get all coins
