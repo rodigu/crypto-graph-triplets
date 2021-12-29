@@ -18,6 +18,8 @@ let info = await api.getExchangeInfo();
 
 let data = await ext.getCompleteExchangeList(exchangeRates,info);
 
+mc.maxClique(data.currencies,data.exchangeList,['BTC','ETH'])
+
 ext.writeNetworkMatrixCSV(data.exchangeList,data.currencies)
 
 ext.writeExchangeList(data.exchangeList)
