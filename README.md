@@ -1,9 +1,11 @@
-1. [Deno Use](#deno-use)
-2. [Binance Api Use](#binance-api-use)
-3. [Other References](#other-references)
-4. [Notes](#notes)
-5. [Questions](#questions)
-6. [Analysis](#analysis)
+- [Deno usage](#deno-usage)
+- [Binance API Use](#binance-api-use)
+- [Other References](#other-references)
+- [Notes](#notes)
+  - [What is a bi-directional graph?](#what-is-a-bi-directional-graph)
+- [Questions](#questions)
+- [Analysis](#analysis)
+- [TODO](#todo)
 
 ### Deno usage
 To import modules from the Deno REPL, use:
@@ -90,7 +92,7 @@ let cur_n = data.exchangeList.filter(e=>e.base===CUR || e.quote===CUR)
 data.currency.filter(c=>!cur_n.filter(n=>n.base===c||n.quote===c).length)
 ```
 As of 12/23, BTC has 405 neighbors. These are the 79 currencies with no edges to BTC:
-```
+```ts
 [
   "USDSB",   "BGBP",      "TUSDB",     "BULL",    "BEAR",
   "ETHBULL", "ETHBEAR",   "EOSBULL",   "EOSBEAR", "XRPBULL",
@@ -142,6 +144,23 @@ These might all be "special" currencies. BTCUP and BTCDOWN, for instance, are Bi
 ]
 ```
 OOKI's only neighbors are BUSD and USDT.
+
+As of 01/19/22, the largest clique in the graph is:
+```
+[
+  "ETH",  "BNB",
+  "BTC",  "TRX",
+  "XRP",  "TUSD",
+  "PAX",  "USDC",
+  "BUSD", "USDT"
+]
+```
+When these currencies are removed, the remaining network still has 184 edges. There are 80 currencies that still associate with an edge.
+
+It is possible to get them with the following line:
+```ts
+let c_set = new Set([...data_no_clique.exchangeList.map(e=>e.base),...data_no_clique.exchangeList.map(e=>e.quote)])
+```
 
 ### TODO
 - [x] Show graph
