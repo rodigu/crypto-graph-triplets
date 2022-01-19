@@ -161,6 +161,9 @@ It is possible to get them with the following line:
 ```ts
 let c_set = new Set([...data_no_clique.exchangeList.map(e=>e.base),...data_no_clique.exchangeList.map(e=>e.quote)])
 ```
+Here is what the network looks like now:
+
+![no_clique](./img/no_clique.png)
 
 ### TODO
 - [x] Show graph
