@@ -57,10 +57,11 @@ def make_label_dict(labels):
         l[i] = label
     return l
 
-input_data = pd.read_csv('networkMatrix.csv', index_col=0)
+file_name = 'networkMatrix.csv'
+input_data = pd.read_csv(file_name, index_col=0)
 G = nx.Graph(input_data.values)
 
-with open('networkMatrix.csv', 'r') as f:
+with open(file_name, 'r') as f:
     d_reader = csv.DictReader(f)
     headers = d_reader.fieldnames
 
