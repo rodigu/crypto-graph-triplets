@@ -133,7 +133,6 @@ def make_label_dict(labels):
     return l
 
 file_name = 'networkMatrix.csv'
-
 input_data = pd.read_csv(file_name, index_col=0)
 G = nx.Graph(input_data.values)
 
