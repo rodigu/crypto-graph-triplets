@@ -73,13 +73,16 @@ export async function writeNetworkMatrixCSV(
 // Data manipulation functions
 export function getCompleteExchangeList(
   exchangeRates: Array<{ symbol: string; price: string }>,
-  info: any
+  info: any,
+  fees = 0.005
 ) {
   // returns all necessary information to build a complete graph
   const { symbols } = info;
-  const completeList = symbols.map((e: any) => {
-    return { symbol: e.symbol, base: e.baseAsset, quote: e.quoteAsset };
-  });
+  const completeList = symbols
+    .filter((e: any) => e.status === "TRADING")
+    .map((e: any) => {
+      return { symbol: e.symbol, base: e.baseAsset, quote: e.quoteAsset };
+    });
 
   // get all possible currencies into a set
   const currencies: Set<string> = new Set(completeList.map((e: any) => e.base));
@@ -87,10 +90,10 @@ export function getCompleteExchangeList(
   completeList.forEach((e: any) => currencies.add(e.quote));
 
   // pair exchange rates with symbols
-  const priceMap: Map<string, string> = new Map();
+  const priceMap: Map<string, string | number> = new Map();
   for (const trade of exchangeRates) {
     const { symbol, price } = trade;
-    priceMap.set(symbol, price);
+    priceMap.set(symbol, +price * (1 + fees));
   }
 
   completeList.forEach((element: any) => {
@@ -198,4 +201,25 @@ export function tripletProfits(network: n.Network): TripletInfo[] {
   });
 
   return profit_list;
+}
+
+export function sortTriplets(triplets: TripletInfo[]) {
+  return triplets.sort((a, b) => (a.weight > b.weight ? 1 : -1));
+}
+
+/**
+ * Margin in percentage: .2 is 20%
+ * @param  {TripletInfo[]} triplets
+ * @param  {number} margin
+ */
+export function profitMarginTriplets(
+  triplets: TripletInfo[],
+  margin: number,
+  max_margin = 1
+) {
+  return triplets.filter(
+    ({ weight }) =>
+      (weight - 1 > margin && weight - 1 < max_margin) ||
+      (1 / weight - 1 > margin && 1 / weight - 1 < max_margin)
+  );
 }

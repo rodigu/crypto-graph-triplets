@@ -14,6 +14,7 @@
 - [Triplets](#triplets)
   - [29/01/22](#290122)
   - [31/01/22](#310122)
+  - [02/08/22](#020822)
 - [TODO](#todo)
   - [01/31/22](#013122)
   - [01/24/22](#012422)
@@ -62,6 +63,10 @@ let data = await ext.getCompleteExchangeList(exchange_rates, info);
 let network = ext.createNet(data);
 
 let tp_lst = ext.tripletProfits(network);
+
+ext.sortTriplets(tp_lst);
+
+let tp_pr = ext.profitMarginTriplets(tp_lst, 0.1);
 
 let wgh = tp_lst.map(({ weight }) => weight);
 wgh.sort()[0];
@@ -292,7 +297,7 @@ BNB participates exactly in a tenth of the trades.
 
 The `createNet()` function returns a network with sorted edges.
 It makes sure every `from > to`, and changes the weight of the edge to `1/price` when necessary.
-`tripletProfits()` returns a list with the triplets and the triplet's product-weight (the product of its edge weights.
+`tripletProfits()` returns a list with the triplets and the triplet's product-weight (the product of its edge weights).
 
 The top triplet (with the highest weight) is
 
@@ -316,6 +321,38 @@ The top viable triplet is actually:
 
 JSON of triplets can be found in `triplets_31_0_2022.json`
 
+#### 02/08/22
+
+Removed all untradable currencies.
+Current network configuration:
+
+```ts
+> network.edges.size
+1386
+> network.vertices.size
+345
+```
+
+Also applied fees.
+The most profitable trade is now BTC, SPELL, USDT, with 4.6% profits.
+
+Triplets with at least 1% profit:
+
+```ts
+> let tp_pr = ext.profitMarginTriplets(tp_lst, 0.01);
+undefined
+> tp_pr.length
+155
+> tp_lst.length
+2478
+> tp_lst[0]
+{ triplet: [ "BTC", "BUSD", "SPELL" ], weight: 0.9566398322580645, index: 2370 }
+> tp_lst[tp_lst.length-1]
+{ triplet: [ "BTC", "SPELL", "USDT" ], weight: 1.0463119365658742, index: 2368 }
+> 1/tp_lst[0].weight
+1.045325488527472
+```
+
 ### TODO
 
 - [x] Show graph
@@ -336,7 +373,7 @@ JSON of triplets can be found in `triplets_31_0_2022.json`
 - [ ] enumerate all triangles and 4-cycles
 - [ ] 4-cycle
 - [ ] percentage profitable
-- [ ] incorporate trading fees
+- [x] incorporate trading fees
 - [ ] maximum trade capacity for a currency?
 
 ##### Preprocessing
