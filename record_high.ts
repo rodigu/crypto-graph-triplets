@@ -11,7 +11,7 @@ async function getHighTriplet(): Promise<ext.TripletInfo> {
   const high = { weight: 0, index: 0 };
 
   tp_lst.forEach((tp) => {
-    if (tp.weight > high.weight && tp.triplet.indexOf("VEN") === -1) {
+    if (tp.weight > high.weight) {
       high.weight = tp.weight;
       high.index = tp.index;
     }
@@ -114,4 +114,6 @@ async function recordTripletsJSON() {
   );
 }
 
-recordTripletsJSON();
+const strt = new Date().getTime();
+await recordTripletsJSON();
+console.log("Time taken:", new Date().getTime() - strt);
