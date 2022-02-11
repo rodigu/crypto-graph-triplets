@@ -1,5 +1,6 @@
 // To run with Deno REPL:
 // deno run --allow-write --allow-net update_data.ts
+// Add --reload if there are updates to 3rd party packages
 
 import * as api from "./req.ts";
 import * as ext from "./extraFunctions.ts";

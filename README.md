@@ -18,6 +18,7 @@
 - [TODO](#todo)
   - [01/31/22](#013122)
   - [01/24/22](#012422)
+  - [02/10/22](#021022)
     - [Preprocessing](#preprocessing)
 
 ### Deno Use
@@ -66,7 +67,10 @@ let tp_lst = ext.tripletProfits(network);
 
 ext.sortTriplets(tp_lst);
 
-let tp_pr = ext.profitMarginTriplets(tp_lst, 0.1);
+let tp_pr = ext.profitMarginTriplets(tp_lst, 0.01);
+
+tp_pr[0];
+tp_pr[tp_pr.length - 1];
 
 let wgh = tp_lst.map(({ weight }) => weight);
 wgh.sort()[0];
@@ -353,11 +357,13 @@ undefined
 1.045325488527472
 ```
 
+2499
+
 ### TODO
 
 - [x] Show graph
 - [x] Get all coins
-- [ ] MaxClique algorithm
+- [x] MaxClique algorithm
 - check if nodes in other set are independent
 - reference: https://www.geeksforgeeks.org/maximal-clique-problem-recursive-solution/
   set of candidates for independent set if its not zero
@@ -370,11 +376,17 @@ undefined
 
 #### 01/24/22
 
-- [ ] enumerate all triangles and 4-cycles
-- [ ] 4-cycle
-- [ ] percentage profitable
+- [x] percentage profitable
 - [x] incorporate trading fees
-- [ ] maximum trade capacity for a currency?
+
+#### 02/10/22
+
+- [ ] market cap
+- [ ] what coins show up in most triplets
+- [ ] how long the windows stay open for
+- [ ] sec by sec triplets algorithm
+- [ ] analyze what triplets look like
+- [ ] also register all exchange rates
 
 ##### Preprocessing
 
