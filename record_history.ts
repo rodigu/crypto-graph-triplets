@@ -49,28 +49,40 @@ function pad(num: string, size: number): string {
 
 async function registerJSON() {
   const date = getDate();
-  const start = new Date().getTime();
+  const start_UTC = new Date().getTime();
+
   let file = [];
   try {
     file = await JSON.parse(await Deno.readTextFile(`./history/${date}.json`));
-    // await file;
+    await file;
   } catch (e) {
     console.log(e);
   }
-  const time = getTime();
+  const start_time = getTime();
 
   const network = await fetchData();
-  // await network
+  await network;
+
   const start_triplets = new Date().getTime();
   const triplets = getTriplets(network);
   const end_triplets = new Date().getTime();
 
+  const file_load_start = new Date().getTime();
+  const network_after_triplets = await fetchData();
+  await network_after_triplets;
+  const file_load_time = new Date().getTime() - file_load_start;
+
+  const end_UTC = new Date().getTime();
+
   file.push({
-    start_time: time, // time data was fetched
+    start_UTC,
+    end_UTC,
+    start_time: start_time, // time data was fetched
     end_time: getTime(),
-    time_taken_sec: (new Date().getTime() - start) / 1000,
+    time_taken_total: (end_UTC - start_UTC) / 1000,
     time_taken_triplets: (end_triplets - start_triplets) / 1000,
-    exchanges: network.edge_list.map(({ vertices, weight }) => {
+    file_load_time,
+    exchanges: network_after_triplets.edge_list.map(({ vertices, weight }) => {
       return { vertices, weight };
     }),
     triplets,
@@ -100,4 +112,14 @@ async function topRegister(min: number) {
 
 // topRegister(1);
 
-registerJSON();
+// registerJSON();
+
+async function runFunc(func: Function, time: number) {
+  const start = new Date().getTime();
+
+  time *= 1000;
+
+  while (new Date().getTime() - start < time) await func;
+}
+
+runFunc(registerJSON, 10);
