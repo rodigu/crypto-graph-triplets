@@ -1,0 +1,70 @@
+Recorded time: 23:25
+Triplets: ["BTC","BUSD","SUN"]
+Weight: 1912.6580262225373
+Index: 4719
+---
+Recorded time: 23:40
+Triplets: ["BTC","BUSD","SUN"]
+Weight: 1912.8394294826364
+Index: 4719
+---
+Recorded time: 23:55
+Triplets: ["BTC","BUSD","SUN"]
+Weight: 1913.6716276595744
+Index: 4719
+---
+Recorded time: 23:10
+Triplets: ["BTC","BUSD","SUN"]
+Weight: 1913.4331148936174
+Index: 4719
+---
+Recorded time: 23:24
+Triplets: ["BTC","BUSD","SUN"]
+Weight: 1913.8561851063832
+Index: 4719
+---
+Recorded time: 23:38
+Triplets: ["BTC","BUSD","SUN"]
+Weight: 1913.9721638297876
+Index: 4719
+---
+Recorded time: 23:53
+Triplets: ["BTC","BUSD","SUN"]
+Weight: 1913.3015042553193
+Index: 4719
+---
+Recorded time: 23:8
+Triplets: ["BTC","BUSD","SUN"]
+Weight: 1913.4038680851063
+Index: 4719
+---
+Recorded time: 23:22
+Triplets: ["BTC","BUSD","SUN"]
+Weight: 1911.9677489361707
+Index: 4719
+---
+Recorded time: 23:36
+Triplets: ["BTC","BUSD","SUN"]
+Weight: 1911.9748085106387
+Index: 4719
+---
+Recorded time: 23:50
+Triplets: ["BTC","BUSD","SUN"]
+Weight: 1911.7287319148936
+Index: 4719
+---
+Recorded time: 23:5
+Triplets: ["BTC","BUSD","SUN"]
+Weight: 1911.7307489361701
+Index: 4719
+---
+Recorded time: 23:20
+Triplets: ["BTC","BUSD","SUN"]
+Weight: 1911.7403297872343
+Index: 4719
+---
+Recorded time: 23:34
+Triplets: ["BTC","BUSD","SUN"]
+Weight: 1911.739825531915
+Index: 4719
+---
