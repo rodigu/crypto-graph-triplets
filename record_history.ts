@@ -19,7 +19,7 @@ function getTriplets(network: n.Network) {
 
   ext.sortTriplets(triplet_list);
 
-  const triplet_1p = ext.profitMarginTriplets(triplet_list, 0.005);
+  const triplet_1p = ext.profitMarginTriplets(triplet_list, 0.03);
 
   return triplet_1p;
 }
@@ -37,8 +37,9 @@ function getTime() {
 function getDate(): string {
   return (
     new Date().getFullYear() +
-    pad(new Date().getMonth() + "1", 2) +
-    pad(new Date().getDay() + "", 2)
+    pad(new Date().getMonth() + "", 2) +
+    pad(new Date().getDay() + "", 2) +
+    pad(new Date().getHours() + "", 2)
   );
 }
 
@@ -177,18 +178,13 @@ async function history(time: number) {
       time_taken_total: (end_UTC - start_UTC) / 1000,
       time_taken_triplets: (end_triplets - start_triplets) / 1000,
       fetch_time,
-      exchanges: network_after_triplets.edge_list.map(
-        ({ vertices, weight }) => {
-          return { vertices, weight };
-        }
-      ),
       triplets,
     });
 
     console.log(
-      `\n--------\nArray size: ${file.length}\nFetch Time: ${
-        fetch_time / 1000
-      }\nTriplets time: ${
+      `\n--------\nPrev Date: ${prev_date}\nDate: ${date}\nArray size: ${
+        file.length
+      }\nFetch Time: ${fetch_time / 1000}\nTriplets time: ${
         (end_triplets - start_triplets) / 1000
       }\nTotal time taken: ${(end_UTC - start_UTC) / 1000}`
     );
@@ -205,4 +201,27 @@ async function history(time: number) {
   await Deno.writeTextFile(`./history/${prev_date}.json`, JSON.stringify(file));
 }
 
-history(5 * 60);
+// history(60 * 60 * 24);
+
+async function loopNet() {
+  while (1) {
+    const start_UTC = new Date().getTime();
+    const network = await fetchData();
+    await network;
+
+    const triplets = getTriplets(network);
+    const end_UTC = new Date().getTime();
+
+    console.log(`\n----\nTriplets:`);
+    triplets.forEach((trip, i) => {
+      const index = i + 1;
+      if (index % 2 === 1) {
+        console.log(trip.triplet);
+        console.log(trip.weight);
+      }
+    });
+    console.log(`\nTime taken: ${(end_UTC - start_UTC) / 1000}`);
+  }
+}
+
+loopNet();

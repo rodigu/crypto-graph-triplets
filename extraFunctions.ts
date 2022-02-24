@@ -212,14 +212,8 @@ export function sortTriplets(triplets: TripletInfo[]) {
  * @param  {TripletInfo[]} triplets
  * @param  {number} margin
  */
-export function profitMarginTriplets(
-  triplets: TripletInfo[],
-  margin: number,
-  max_margin = 1
-) {
+export function profitMarginTriplets(triplets: TripletInfo[], margin: number) {
   return triplets.filter(
-    ({ weight }) =>
-      (weight - 1 > margin && weight - 1 < max_margin) ||
-      (1 / weight - 1 > margin && 1 / weight - 1 < max_margin)
+    ({ weight }) => weight - 1 > margin || 1 / weight - 1 > margin
   );
 }

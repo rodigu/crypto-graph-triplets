@@ -388,6 +388,10 @@ undefined
 - [ ] analyze what triplets look like
 - [ ] also register all exchange rates
 
+- [ ] check history of top ones
+- [ ] check how long triplets stay in the top
+- [ ] raise expected proft
+
 ##### Preprocessing
 
 - [ ] remove degree 1 vertices (leaves)
