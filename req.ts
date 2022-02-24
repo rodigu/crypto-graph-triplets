@@ -1,5 +1,5 @@
 async function fetchExchange(currency: string) {
-  let link = `https://api.binance.com/api/v3/ticker/price`;
+  let link = `https://api.binance.us/api/v3/ticker/price`;
   currency === "all" ? 1 : (link += `?symbol=${currency}`);
   try {
     const response = await fetch(link);
@@ -22,7 +22,7 @@ export async function getExchangeRate(currency = "all") {
 
 // gets info for all possible currency trades
 export async function getExchangeInfo() {
-  const link = "https://api.binance.com/api/v3/exchangeInfo";
+  const link = "https://api.binance.us/api/v3/exchangeInfo";
   try {
     const response = await fetch(link);
     const data = await response.json();
