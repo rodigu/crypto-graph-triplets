@@ -14,12 +14,12 @@ async function fetchData() {
   return ext.createNet(data);
 }
 
-function getTriplets(network: n.Network) {
+function getTriplets(network: n.Network, margin = 0.02) {
   const triplet_list = ext.tripletProfits(network);
 
   ext.sortTriplets(triplet_list);
 
-  const triplet_1p = ext.profitMarginTriplets(triplet_list, 0.03);
+  const triplet_1p = ext.profitMarginTriplets(triplet_list, margin);
 
   return triplet_1p;
 }
@@ -209,15 +209,16 @@ async function loopNet() {
     const network = await fetchData();
     await network;
 
-    const triplets = getTriplets(network);
+    const triplets = getTriplets(network, 0.03);
     const end_UTC = new Date().getTime();
 
+    // Deno.stdout.write(new TextEncoder().encode(true ? "\x1b[2J" : "\x1b[0f"));
     console.log(`\n----\nTriplets:`);
     triplets.forEach((trip, i) => {
       const index = i + 1;
       if (index % 2 === 1) {
         console.log(trip.triplet);
-        console.log(trip.weight);
+        console.log(trip.weight * 0.99);
       }
     });
     console.log(`\nTime taken: ${(end_UTC - start_UTC) / 1000}`);
