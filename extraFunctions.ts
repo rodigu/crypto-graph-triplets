@@ -1,9 +1,12 @@
-import { ExchangeList, CurrencyListType, DataType } from "./enum.ts";
+import {
+  ExchangeList,
+  CurrencyListType,
+  DataType,
+  APIExchangeRates,
+  APIInfo,
+  Exchange,
+} from "./enum.ts";
 import * as n from "https://deno.land/x/nets/mod.ts";
-
-// Interfaces and types
-
-export type Exchange = { base: string; quote: string; price?: string };
 
 export type EdgeMap = Array<Exchange>;
 
@@ -72,22 +75,22 @@ export async function writeNetworkMatrixCSV(
 
 // Data manipulation functions
 export function getCompleteExchangeList(
-  exchangeRates: Array<{ symbol: string; price: string }>,
-  info: any,
+  exchangeRates: APIExchangeRates,
+  info: APIInfo,
   fees = 0.005
 ) {
   // returns all necessary information to build a complete graph
   const { symbols } = info;
-  const completeList = symbols
-    .filter((e: any) => e.status === "TRADING")
-    .map((e: any) => {
+  const completeList: Exchange[] = symbols
+    .filter((e) => e.status === "TRADING")
+    .map((e) => {
       return { symbol: e.symbol, base: e.baseAsset, quote: e.quoteAsset };
     });
 
   // get all possible currencies into a set
-  const currencies: Set<string> = new Set(completeList.map((e: any) => e.base));
+  const currencies: Set<string> = new Set(completeList.map((e) => e.base));
   // add any currencies that might only be showing as quotes
-  completeList.forEach((e: any) => currencies.add(e.quote));
+  completeList.forEach((e) => currencies.add(e.quote));
 
   // pair exchange rates with symbols
   const priceMap: Map<string, string | number> = new Map();
@@ -96,7 +99,7 @@ export function getCompleteExchangeList(
     priceMap.set(symbol, +price * (1 + fees));
   }
 
-  completeList.forEach((element: any) => {
+  completeList.forEach((element) => {
     element.price = priceMap.get(element.symbol);
   });
 
@@ -107,7 +110,7 @@ export function getCompleteExchangeList(
 export function getEdgeMap(exchangeList: ExchangeList): EdgeMap {
   const edgeMap: EdgeMap = [];
   exchangeList.forEach((exchange, i) => {
-    edgeMap[i] = { base: exchange.base, quote: exchange.quote };
+    edgeMap[i] = { base: exchange.base, quote: exchange.quote, symbol: "" };
   });
   return edgeMap;
 }
@@ -180,7 +183,7 @@ export function createNet(data: DataType) {
 
   const list = data.exchange_list.map((exchange) => {
     const { base, quote } = exchange;
-    const price = +exchange.price;
+    const price = +(exchange.price ?? 0);
     const [from, to] = [base, quote].sort();
     const weight = base === from ? price : 1 / price;
     return { weight, from, to };
