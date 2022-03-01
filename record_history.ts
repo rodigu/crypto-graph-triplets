@@ -13,7 +13,7 @@ async function fetchData() {
   return ext.createNet(data);
 }
 
-function getTriplets(network: n.Network, margin = 0.02) {
+export function getTriplets(network: n.Network, margin = 0.02) {
   const triplet_list = ext.tripletProfits(network);
 
   ext.sortTriplets(triplet_list);
@@ -109,3 +109,5 @@ async function history(time: number) {
   }
   await Deno.writeTextFile(`./history/${prev_date}.json`, JSON.stringify(file));
 }
+
+history(60);
