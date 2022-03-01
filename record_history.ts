@@ -5,7 +5,6 @@ import * as n from "https://deno.land/x/nets/mod.ts";
 async function fetchData() {
   // get exchange rates
   const exchange_rates = await api.getExchangeRate();
-
   // get list with trades and bases/quotes
   const info = await api.getExchangeInfo();
 
@@ -38,8 +37,7 @@ function getDate(): string {
   return (
     new Date().getFullYear() +
     pad(new Date().getMonth() + "", 2) +
-    pad(new Date().getDay() + "", 2) +
-    pad(new Date().getHours() + "", 2)
+    pad(new Date().getDay() + "", 2)
   );
 }
 
@@ -156,17 +154,14 @@ async function history(time: number) {
 
     const start_time = getTime();
 
+    const fetch_start = new Date().getTime();
     const network = await fetchData();
     await network;
+    const fetch_time = new Date().getTime() - fetch_start;
 
     const start_triplets = new Date().getTime();
-    const triplets = getTriplets(network);
+    const triplets = getTriplets(network, 0.01);
     const end_triplets = new Date().getTime();
-
-    const fetch_start = new Date().getTime();
-    const network_after_triplets = await fetchData();
-    await network_after_triplets;
-    const fetch_time = new Date().getTime() - fetch_start;
 
     const end_UTC = new Date().getTime();
 
@@ -201,15 +196,14 @@ async function history(time: number) {
   await Deno.writeTextFile(`./history/${prev_date}.json`, JSON.stringify(file));
 }
 
-// history(60 * 60 * 24);
+history(60);
 
 async function loopNet() {
   while (1) {
     const start_UTC = new Date().getTime();
     const network = await fetchData();
     await network;
-
-    const triplets = getTriplets(network, 0.03);
+    const triplets = getTriplets(network, 0.02);
     const end_UTC = new Date().getTime();
 
     // Deno.stdout.write(new TextEncoder().encode(true ? "\x1b[2J" : "\x1b[0f"));
@@ -225,4 +219,4 @@ async function loopNet() {
   }
 }
 
-loopNet();
+// loopNet();
