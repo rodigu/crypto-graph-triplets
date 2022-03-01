@@ -42,12 +42,12 @@ async function timeCalc(
 
 async function fetchData() {
   // get exchange rates
-  let exchange_rates = await api.getExchangeRate();
+  const exchange_rates = await api.getExchangeRate();
 
   // get list with trades and bases/quotes
-  let info = await api.getExchangeInfo();
+  const info = await api.getExchangeInfo();
 
-  let data = await ext.getCompleteExchangeList(exchange_rates, info);
+  const data = await ext.getCompleteExchangeList(exchange_rates, info);
 
   return ext.createNet(data);
 }
