@@ -3,7 +3,7 @@ let vis;
 import("./data_vis.ts").then((r) => (vis = r));
 vis.graphData(hist.map(({file_load_time})=>file_load_time), "tst.png", 5000);
 */
-import { createCanvas, loadImage } from "https://deno.land/x/canvas/mod.ts";
+import { createCanvas } from "https://deno.land/x/canvas/mod.ts";
 
 export async function graphData(
   data: number[],
