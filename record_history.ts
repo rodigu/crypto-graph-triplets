@@ -46,93 +46,6 @@ function pad(num: string, size: number): string {
   return num;
 }
 
-async function registerJSON() {
-  const date = getDate();
-  const start_UTC = new Date().getTime();
-
-  let file = [];
-  const file_load_start = new Date().getTime();
-  try {
-    file = await JSON.parse(await Deno.readTextFile(`./history/${date}.json`));
-    await file;
-  } catch (e) {
-    console.log(e);
-  }
-  const file_load_time = new Date().getTime() - file_load_start;
-
-  const start_time = getTime();
-
-  const network = await fetchData();
-  await network;
-
-  const start_triplets = new Date().getTime();
-  const triplets = getTriplets(network);
-  const end_triplets = new Date().getTime();
-
-  const fetch_start = new Date().getTime();
-  const network_after_triplets = await fetchData();
-  await network_after_triplets;
-  const fetch_time = new Date().getTime() - fetch_start;
-
-  const end_UTC = new Date().getTime();
-
-  file.push({
-    start_UTC,
-    end_UTC,
-    start_time: start_time, // time data was fetched
-    end_time: getTime(),
-    time_taken_total: (end_UTC - start_UTC) / 1000,
-    time_taken_triplets: (end_triplets - start_triplets) / 1000,
-    file_load_time,
-    fetch_time,
-    exchanges: network_after_triplets.edge_list.map(({ vertices, weight }) => {
-      return { vertices, weight };
-    }),
-    triplets,
-  });
-
-  await Deno.writeTextFile(`./history/${date}.json`, JSON.stringify(file));
-
-  console.log(
-    `\n--------\nFile load time: ${file_load_time / 1000}\nFetch Time: ${
-      fetch_time / 1000
-    }\nTriplets time: ${
-      (end_triplets - start_triplets) / 1000
-    }\nTotal time taken: ${(end_UTC - start_UTC) / 1000}`
-  );
-}
-
-// checking how much the top triplet changed in 2 minutes
-
-async function topRegister(min: number) {
-  const start = new Date().getTime();
-  let file = [];
-  while (new Date().getTime() - start < min * 1000 * 60) {
-    const start_algo = getTime();
-    const network = await fetchData();
-    const triplets = getTriplets(network);
-    file.push({
-      start: start_algo,
-      end: getTime(),
-      top1: triplets[triplets.length - 1],
-      top0: triplets[0],
-    });
-    await Deno.writeTextFile(`./history/tst.json`, JSON.stringify(file));
-  }
-}
-
-// topRegister(1);
-
-// registerJSON();
-
-async function runFunc(func: Function, time: number) {
-  const start = new Date().getTime();
-
-  time *= 1000;
-
-  while (new Date().getTime() - start < time) await func();
-}
-
 async function history(time: number) {
   const start = new Date().getTime();
 
@@ -160,7 +73,8 @@ async function history(time: number) {
     const fetch_time = new Date().getTime() - fetch_start;
 
     const start_triplets = new Date().getTime();
-    const triplets = getTriplets(network, 0.01);
+    const triplets = ext.tripletProfits(network);
+    ext.sortTriplets(triplets);
     const end_triplets = new Date().getTime();
 
     const end_UTC = new Date().getTime();
@@ -195,28 +109,3 @@ async function history(time: number) {
   }
   await Deno.writeTextFile(`./history/${prev_date}.json`, JSON.stringify(file));
 }
-
-history(60);
-
-async function loopNet() {
-  while (1) {
-    const start_UTC = new Date().getTime();
-    const network = await fetchData();
-    await network;
-    const triplets = getTriplets(network, 0.02);
-    const end_UTC = new Date().getTime();
-
-    // Deno.stdout.write(new TextEncoder().encode(true ? "\x1b[2J" : "\x1b[0f"));
-    console.log(`\n----\nTriplets:`);
-    triplets.forEach((trip, i) => {
-      const index = i + 1;
-      if (index % 2 === 1) {
-        console.log(trip.triplet);
-        console.log(trip.weight * 0.99);
-      }
-    });
-    console.log(`\nTime taken: ${(end_UTC - start_UTC) / 1000}`);
-  }
-}
-
-// loopNet();
