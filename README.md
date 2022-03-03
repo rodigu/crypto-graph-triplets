@@ -1,5 +1,6 @@
 - [REPL data analysis](#repl-data-analysis)
 - [03/01](#0301)
+- [03/03](#0303)
 
 The Python code for visualizing the network can be found in [the graphVis file](graphVis.py).
 
@@ -32,6 +33,18 @@ ext.sortTriplets(tp_lst);
 let tp_pr = ext.profitMarginTriplets(tp_lst, 0.01);
 ```
 
+Reading data from JSON:
+
+```ts
+let vis;
+import("./data_vis.ts").then((r) => (vis = r));
+let data_hist = await JSON.parse(
+  await Deno.readTextFile("./history/FILENAME.json")
+);
+
+let most_proft = data_hist.map(({ triplets }) => triplets[0].weight);
+```
+
 ### 03/01
 
 The graph for Binance US is much smaller.
@@ -42,3 +55,7 @@ There are 67 currencies available for trading.
 
 The two currencies in the core are USD and USDT.
 It seems to be a lot more stable than the non-US Binance market.
+
+### 03/03
+
+https://api.coinbase.com/v2/exchange-rates?currency=BTC
