@@ -71,7 +71,7 @@ https://api.coinbase.com/v2/exchange-rates?currency=BTC
 #### Coinbase
 
 API entry URL: https://api.coinbase.com/v2/
-It takes no moew than 500 milliseconds to fetch the currency list.
+It takes no more than 500 milliseconds to fetch the currency list.
 Because of the way we have to fetch exchange rates in this API,
 it is unpractical to use it unless we know which
 currencies we want to use, and we don't care about the other possible
@@ -98,6 +98,8 @@ Not sure what it is for, but they don't show up in the asset pairs fetch request
 This API is feasible for doing the calculations.
 It also includes non-crypto currencies.
 There are 154 currencies, and 463 possible trades.
+Asset pairs only return possible exchanges, not the price of such exchanges.
+Ticker returns the prices, but it has the same issue as Gemini and Coinbase.
 
 #### FTX
 
@@ -109,8 +111,35 @@ BTC-PERP = Perpetual Futures
 BTC-0325 = March 22 Futures
 BTC-0624 = June 22 Futures
 
+Here is what the graph looks like:
+![FTX exchange graph](img/ftx.png)
+
+These are the cores that we can observe in the image:
+
+```ts
+> neighbors[0]
+{ id: "USD", n: 417 }
+> neighbors[1]
+{ id: "USDT", n: 94 }
+> neighbors[2]
+{ id: "BTC", n: 27 }
+> neighbors[3]
+{ id: "ETH", n: 5 }
+```
+
 #### Crypto.com
 
 Can access possible exchanges through the ticker.
 However, the currencies aren't aways trading.
 There are 283 exchenges returned by the API.
+
+The cores are:
+
+```ts
+{ vertex: "USDT", neighbors: 176 },
+{ vertex: "USDC", neighbors: 66 },
+{ vertex: "BTC", neighbors: 55 },
+{ vertex: "CRO", neighbors: 13 },
+```
+
+![Crypto.com exchange graph](img/cryptocom.png)

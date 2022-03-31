@@ -1,4 +1,9 @@
-export type Market = {
+export interface Market extends RawMarket {
+  baseCurrency: string;
+  quoteCurrency: string;
+}
+
+export type RawMarket = {
   name: string;
   enabled: boolean;
   postOnly: boolean;
@@ -23,7 +28,7 @@ export type Market = {
   volumeUsd24h: number;
 };
 
-export async function fetchMarkets(): Promise<Market[]> {
+export async function fetchMarkets(): Promise<RawMarket[]> {
   const link = `https://ftx.com/api/markets`;
 
   const response = (await fetch(link)).json();
