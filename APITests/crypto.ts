@@ -39,4 +39,5 @@ await t;
 
 const network = generateNetwork(t.data);
 nex.writeAdjacencyMatrix(network, "CryptoAdjacencyMatrix.csv");
-console.log(network.ranked_neighborhood);
+// console.log(network.ranked_neighborhood);
+// network.triplets();

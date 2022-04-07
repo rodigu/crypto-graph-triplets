@@ -1,6 +1,7 @@
-export interface Market extends RawMarket {
+export interface Market {
   baseCurrency: string;
   quoteCurrency: string;
+  price: number;
 }
 
 export type RawMarket = {

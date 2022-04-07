@@ -127,6 +127,28 @@ These are the cores that we can observe in the image:
 { id: "ETH", n: 5 }
 ```
 
+```ts
+[
+  { triplet: ["USDT", "USD", "BSVBEAR"], weight: 0.01036269430051795 },
+  { triplet: ["USDT", "USD", "EOSBEAR"], weight: 0.01049317943336836 },
+  { triplet: ["USDT", "USD", "LTCBULL"], weight: 0.01084369214493508 },
+  { triplet: ["MTA", "USD", "USDT"], weight: 0.011984021304926928 },
+  { triplet: ["USDT", "USD", "KNCBEAR"], weight: 0.013215859030837107 },
+  { triplet: ["USDT", "USD", "BSVBULL"], weight: 0.013574660633484115 },
+  { triplet: ["USDT", "USD", "ASDBULL"], weight: 0.013938753959873318 },
+  { triplet: ["USDT", "USD", "CUSDTBEAR"], weight: 0.014189693801344383 },
+  { triplet: ["USDT", "USD", "DEFIBULL"], weight: 0.01532567049808431 },
+  { triplet: ["USDT", "USD", "CUSDTBULL"], weight: 0.018219142930459342 },
+  { triplet: ["USDT", "USD", "VETBEAR"], weight: 0.0185185185185186 },
+  { triplet: ["DMG", "USD", "USDT"], weight: 0.027027027027027084 },
+  { triplet: ["USDT", "USD", "XTZBEAR"], weight: 0.050000000000000044 },
+  { triplet: ["USDT", "USD", "XRPBEAR"], weight: 0.16666666666666663 },
+  { triplet: ["USDT", "USD", "BNBBEAR"], weight: 0.99999999 },
+];
+```
+
+3568 quadruplets, 3.5 seconds to compute.
+
 #### Crypto.com
 
 Can access possible exchanges through the ticker.
@@ -143,3 +165,14 @@ The cores are:
 ```
 
 ![Crypto.com exchange graph](img/cryptocom.png)
+
+Had a triplet above 1% for a second
+
+```ts
+[ { triplet: [ "ANY", "BTC", "USDT" ], weight: 0.03736725697305876 } ]
+PS C:\work\crypto-graph-triplets\APITests> deno run --allow-write --allow-read --allow-net analysis.ts
+[]
+PS C:\work\crypto-graph-triplets\APITests>
+```
+
+4814 quadruplets. 4.3 seconds to compute.

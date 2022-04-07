@@ -15,48 +15,43 @@ export function cleanMarkets(markets: f.RawMarket[]): f.Market[] {
   const clean_markets: f.Market[] = [];
 
   for (const market of markets) {
-    const { baseCurrency, quoteCurrency } = market;
+    const { baseCurrency, quoteCurrency, price } = market;
     if (baseCurrency !== null && quoteCurrency !== null) {
-      const base = baseCurrency!;
-      const quote = quoteCurrency!;
-      clean_markets.push(
-        Object.assign(market, { baseCurrency: base, quoteCurrency: quote })
-      );
+      const base = baseCurrency;
+      const quote = quoteCurrency;
+      clean_markets.push({
+        baseCurrency: base,
+        quoteCurrency: quote,
+        price,
+      });
     }
   }
 
   return clean_markets;
 }
 
-export function generateNetwork(markets: f.Market[]): nets.Network {
-  const net = new nets.Network({ is_directed: true });
+export async function generateNetwork(): Promise<nets.Network> {
+  const net = new nets.Network({ is_directed: false });
+  const markets = cleanMarkets(await f.fetchMarkets());
 
-  net.addEdgeList(
-    markets.map(({ baseCurrency, quoteCurrency }) => [
-      baseCurrency,
-      quoteCurrency,
-    ])
-  );
+  markets.forEach(({ baseCurrency, quoteCurrency, price }) => {
+    !net.addEdge({ from: baseCurrency, to: quoteCurrency, weight: price });
+  });
 
   return net;
 }
 
-const markets = await f.fetchMarkets();
-await markets;
-nex.writeAdjacencyMatrix(
-  generateNetwork(cleanMarkets(markets)),
-  "FTXAdjacencyMatrix.csv"
-);
+nex.writeAdjacencyMatrix(await generateNetwork(), "FTXAdjacencyMatrix.csv");
 
-markets.forEach((market) => {
-  if (!market.enabled) console.log(market);
-});
-const network = generateNetwork(cleanMarkets(markets));
+// markets.forEach((market) => {
+//   if (!market.enabled) console.log(market);
+// });
+// const network = generateNetwork(cleanMarkets(markets));
 
-const curr = network.vertex_list.map((vertex) => vertex.id);
-const neighbors = curr.map((c) => {
-  return { id: c, n: network.neighbors(c).length };
-});
-neighbors.sort((a, b) => (a.n < b.n ? 1 : -1));
+// const curr = network.vertex_list.map((vertex) => vertex.id);
+// const neighbors = curr.map((c) => {
+//   return { id: c, n: network.neighbors(c).length };
+// });
+// neighbors.sort((a, b) => (a.n < b.n ? 1 : -1));
 
-console.log(neighbors);
+// console.log(neighbors);
