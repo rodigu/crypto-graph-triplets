@@ -11,7 +11,11 @@ const info = await api.getExchangeInfo();
 
 const data = ext.getCompleteExchangeList(exchange_rates, info);
 
-await ext.writeNetworkMatrixCSV(data.exchange_list, data.currencies);
+await ext.writeNetworkMatrixCSV(
+  data.exchange_list,
+  data.currencies,
+  "newAdjacencyM.csv"
+);
 
 await ext.writeExchangeList(data.exchange_list);
 await ext.writeCurrencyList(data.currencies);

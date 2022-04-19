@@ -6,7 +6,7 @@ import {
   APIInfo,
   Exchange,
 } from "./enum.ts";
-import * as n from "https://deno.land/x/nets/mod.ts";
+import * as n from "https://deno.land/x/nets@v0.3.2/mod.ts";
 
 export type EdgeMap = Array<Exchange>;
 

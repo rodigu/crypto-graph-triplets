@@ -31,7 +31,7 @@ function tripletProfits(network: nets.Network): TripletInfo[] {
     const [v1, v2, v3] = triplet.vertex_list.map((v) => v.id);
     return {
       triplet: [v1, v2, v3],
-      weight: Math.sign(1 - triplet.product) * (1 - triplet.product),
+      weight: Math.abs(1 - triplet.product),
     };
   });
 
@@ -92,8 +92,13 @@ async function analyzeTripletsFTX() {
 async function analyzeQuadCry() {
   const network = await ftx.generateNetwork();
   const start = Date.now();
-  const quad_p = network.quadruplets();
-  console.log(quad_p.length, (Date.now() - start) / 1000);
+  const quad_p = profitMarginQuad(sortQuad(network.quadruplets()), 0.01);
+  console.log(
+    quad_p[50],
+    quad_p.length,
+    (Date.now() - start) / 1000,
+    quad_p.map(({ product }) => product)
+  );
 }
 
 async function analyzeQuadFTX() {
@@ -102,14 +107,40 @@ async function analyzeQuadFTX() {
 
   const network = cry.generateNetwork(t.data);
   const start = Date.now();
+  // const quad_p = profitMarginQuad(sortQuad(network.quadruplets()), 0.01);
   const quad_p = profitMarginQuad(sortQuad(network.quadruplets()), 0.01);
   console.log(
-    quad_p,
+    quad_p.length,
     quad_p.map(({ product }) => product),
     (Date.now() - start) / 1000
   );
 }
 
-analyzeQuadFTX();
-// analyzeTripletsFTX();
-// analyzeTripletsCry();
+const t = await cry.ticker();
+await t;
+
+const network = cry.generateNetwork(t.data);
+
+console.log(network.ranked_neighborhood);
+
+[
+  "USDT",
+  "USDC",
+  "BTC",
+  "CRO",
+  "ATOM",
+  "ENJ",
+  "ETH",
+  "LINK",
+  "DOT",
+  "VET",
+  "ADA",
+  "XRP",
+];
+// await analyzeQuadCry();
+// console.log("\n---\n");
+// await analyzeQuadFTX();
+// console.log("\n---\n");
+// await analyzeTripletsFTX();
+// console.log("\n---\n");
+// await analyzeTripletsCry();

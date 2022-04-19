@@ -11,7 +11,7 @@ def make_label_dict(labels):
 
 file_name = 'adjacencyMatrix.csv'
 input_data = pd.read_csv(file_name, index_col=0)
-G = nx.Graph(input_data.values)
+G = nx.Graph(input_data)
 
 with open(file_name, 'r') as f:
     d_reader = csv.DictReader(f)

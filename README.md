@@ -7,6 +7,8 @@
   - [Kraken](#kraken)
   - [FTX](#ftx)
   - [Crypto.com](#cryptocom)
+  - [Binance](#binance)
+- [ToDo](#todo)
 
 The Python code for visualizing the network can be found in [the graphVis file](graphVis.py).
 
@@ -82,6 +84,18 @@ The default exchange rates fetch (no input) returns the exchanges for USD.
 There are 165 currencies in the coinbase network.
 But it also includes non-crypto currencies such as JPY and BRL.
 
+It is a split graph.
+The core consists of:
+
+```py
+core_coin = ['AED', 'AFN', 'ALL', 'AMD', 'ANG', 'AOA', 'ARS', 'AUD', 'AWG', 'AZN', 'BAM', 'BBD', 'BDT', 'BGN', 'BHD', 'BIF', 'BMD', 'BND', 'BOB', 'BRL', 'BSD', 'BTN', 'BWP', 'BYN', 'BYR', 'BZD', 'CAD', 'CDF', 'CHF', 'CLF', 'CLP', 'CNY', 'COP', 'CRC', 'CUC', 'CVE', 'CZK', 'DJF', 'DKK', 'DOP', 'DZD', 'EGP', 'ETB', 'EUR', 'FJD', 'FKP', 'GBP', 'GEL', 'GHS', 'GIP', 'GMD', 'GNF', 'GTQ', 'GYD', 'HKD', 'HNL', 'HRK', 'HTG', 'HUF', 'IDR', 'ILS', 'INR', 'IQD', 'ISK', 'JMD', 'JOD', 'JPY', 'KES', 'KGS', 'KHR', 'KMF', 'KRW', 'KWD', 'KYD', 'KZT', 'LAK', 'LBP', 'LKR', 'LRD', 'LSL', 'LYD', 'MAD', 'MDL', 'MGA', 'MKD', 'MMK', 'MNT', 'MOP', 'MRO', 'MUR', 'MVR', 'MWK', 'MXN', 'MYR', 'MZN', 'NAD', 'NGN', 'NIO', 'NOK', 'NPR', 'NZD', 'OMR', 'PAB', 'PEN', 'PGK', 'PHP', 'PKR', 'PLN', 'PYG', 'QAR', 'RON', 'RSD', 'RUB', 'RWF', 'SAR', 'SBD', 'SCR', 'SEK', 'SHP', 'SKK', 'SLL', 'SOS', 'SRD', 'SSP', 'STD', 'SVC', 'SZL', 'THB', 'TJS', 'TMT', 'TND', 'TOP', 'TRY', 'TTD', 'TWD', 'TZS', 'UAH', 'UGX', 'UYU', 'UZS', 'VES', 'VND', 'VUV', 'WST', 'XAF', 'XAG', 'XAU', 'XCD', 'XDR', 'XOF', 'XPD', 'XPF', 'XPT', 'XTS', 'YER', 'ZAR', 'ZMW', 'JEP', 'GGP', 'IMP', 'GBX', 'CNH', 'TMM', 'ZWL', 'SGD', 'USD']
+```
+
+Coinbase looks very different from other networks because it has so many real world currencies.
+Running the current quadruplets algorithm would take a very long time.
+
+The core has 166 currencies, so it has almost all of the currencies in circulation and then some.
+
 #### Gemini
 
 Documentation: https://docs.gemini.com/rest-api/
@@ -149,6 +163,14 @@ These are the cores that we can observe in the image:
 
 3568 quadruplets, 3.5 seconds to compute.
 
+FTX is almost a split graph.
+Its core is composed of `['USD','BTC','ETH','USDT']`.
+The two edges left after removing the core are:
+
+```py
+EdgeView([('EUR', 'EURT'), ('DOGE', 'TSLA')])
+```
+
 #### Crypto.com
 
 Can access possible exchanges through the ticker.
@@ -176,3 +198,35 @@ PS C:\work\crypto-graph-triplets\APITests>
 ```
 
 4814 quadruplets. 4.3 seconds to compute.
+
+Crypto has a split graph.
+Its core is `["USDT","USDC","BTC","CRO","ETH",]`
+
+#### Binance
+
+Binance is a split graph.
+Its core is:
+
+```py
+core_cry = [
+  "BUSD",
+  "USD",
+  "USDT",
+  "USDC",
+  "BTC",
+  "ETH",
+]
+```
+
+### ToDo
+
+- [ ] Exclude, include vertices
+- [x] check if ftx and cry are split graphs
+  - they are
+- [x] missing quadruples if we remove some edges to make it split
+  - anything meaningful happening: no
+  - they are already split
+- [x] extract core
+- [x] make split
+  - already split
+- [] coinbase graph

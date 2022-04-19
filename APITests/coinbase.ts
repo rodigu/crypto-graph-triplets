@@ -6,10 +6,10 @@ type CoinbaseCurrencyList = Array<{
 
 type CurrencyExchangeRate = {
   currency: string;
-  rates: Map<string, number>;
+  rates: { [key: string]: number };
 };
 
-type ExchangeRateMap = Map<string, Map<string, number>>;
+type ExchangeRateMap = { [key: string]: [string, number][] };
 
 export async function fetchCurrencies(): Promise<CoinbaseCurrencyList> {
   const link = "https://api.coinbase.com/v2/currencies";
@@ -20,9 +20,11 @@ export async function fetchCurrencies(): Promise<CoinbaseCurrencyList> {
 
 export async function fetchExchangeRates(): Promise<ExchangeRateMap> {
   const currency_list = await fetchCurrencies();
-  const exchange_rates: ExchangeRateMap = new Map();
+  const exchange_rates: ExchangeRateMap = {};
   for (const { id } of currency_list)
-    exchange_rates.set(id, (await fetchExchangeRateFor(id)).rates);
+    exchange_rates[id] = Object.entries(
+      (await fetchExchangeRateFor(id)).rates
+    ).filter((e) => e[1] > 0);
 
   return exchange_rates;
 }
