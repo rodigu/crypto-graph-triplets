@@ -116,12 +116,12 @@ async function analyzeQuadFTX() {
   );
 }
 
-const t = await cry.ticker();
-await t;
+// const t = await cry.ticker();
+// await t;
 
-const network = cry.generateNetwork(t.data);
+// const network = cry.generateNetwork(t.data);
 
-console.log(network.ranked_neighborhood);
+// console.log(network.ranked_neighborhood);
 
 [
   "USDT",
@@ -137,10 +137,10 @@ console.log(network.ranked_neighborhood);
   "ADA",
   "XRP",
 ];
-// await analyzeQuadCry();
-// console.log("\n---\n");
-// await analyzeQuadFTX();
-// console.log("\n---\n");
-// await analyzeTripletsFTX();
-// console.log("\n---\n");
-// await analyzeTripletsCry();
+await analyzeQuadCry();
+console.log("\n---\n");
+await analyzeQuadFTX();
+console.log("\n---\n");
+await analyzeTripletsFTX();
+console.log("\n---\n");
+await analyzeTripletsCry();

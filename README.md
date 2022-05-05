@@ -9,6 +9,7 @@
   - [Crypto.com](#cryptocom)
   - [Binance](#binance)
 - [ToDo](#todo)
+- [May](#may)
 
 The Python code for visualizing the network can be found in [the graphVis file](graphVis.py).
 
@@ -231,4 +232,14 @@ core_cry = [
 - [x] extract core
 - [x] make split
   - already split
+
+### May
+
 - [] coinbase graph
+- [] Historical graphs for 4-cycles
+  - collect more data
+- [] Instructions on how to run everything
+  - For each piece of code how do you run it on the terminal
+- comparison between profitability
+- if you are trying to do this would it make sense to just look at the triplets
+  - or look at the 4-cycles
