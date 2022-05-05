@@ -12,6 +12,8 @@
 
 The Python code for visualizing the network can be found in [the graphVis file](graphVis.py).
 
+Graph data visualizations: https://colab.research.google.com/drive/1acU5-x7wnnEvgLnexv7ZuIzChGmbt71F?usp=sharing
+
 ### REPL data analysis
 
 ```ts
