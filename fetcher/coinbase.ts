@@ -1,3 +1,5 @@
+import * as nets from "https://deno.land/x/nets/mod.ts";
+
 type CoinbaseCurrencyList = Array<{
   id: string;
   name: string;
@@ -40,4 +42,26 @@ export async function fetchExchangeRateFor(
 
 export function sleep(millis = 1000) {
   return new Promise((resolve) => setTimeout(resolve, millis));
+}
+
+export async function getNetwork() {
+  const exchanges = await fetchExchangeRates();
+  await exchanges;
+  const net = new nets.Network({ edge_limit: 100_000, vertex_limit: 1000 });
+  for (const node of Object.keys(exchanges)) {
+    for (const neighbor of exchanges[node]) {
+      try {
+        net.addEdge({ from: node, to: neighbor[0] });
+      } catch (e) {
+        console.log(e);
+      }
+    }
+  }
+  return net;
+}
+
+export async function writeNetworkData(file_name: string) {
+  const exchanges = await fetchExchangeRates();
+  await exchanges;
+  await Deno.writeTextFile(file_name, JSON.stringify(exchanges));
 }
