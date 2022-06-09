@@ -15,8 +15,11 @@ format = "%Y-%m-%H-%d-%M-%S"
 
 export async function generateTimeSeriesFor(
   triplet: string[],
+  show_progress = false,
   folder_name = "history_us"
 ) {
+  console.clear();
+  const initial_time = Date.now();
   const series: TimeSeries = { date: [], triplet_weight: [] };
   let current = 0;
   for await (const entry of Deno.readDir(`./${folder_name}`)) {
@@ -35,15 +38,18 @@ export async function generateTimeSeriesFor(
             t.triplet.indexOf(triplet[2]) !== -1
           );
         })?.weight ?? 0;
-      console.clear();
-      console.log(`Triplet: ${triplet}`);
-      console.log(`Currently logging: ${name}`);
-      console.log(`Weight: ${series.triplet_weight[current]}`);
-      console.log(`Entry no: ${current}`);
+      if (show_progress) {
+        console.clear();
+        console.log(`Triplet: ${triplet}`);
+        console.log(`Currently logging: ${name}`);
+        console.log(`Weight: ${series.triplet_weight[current]}`);
+        console.log(`Entry no: ${current}`);
+      }
       current++;
     }
   }
 
+  console.log(`Time taken: ${(Date.now() - initial_time) / 1000} seconds`);
   return series;
 }
 
@@ -52,6 +58,10 @@ export async function writeTimeSeriesJSON(file_name: string, data: TimeSeries) {
 }
 
 const triplet = [Deno.args[0], Deno.args[1], Deno.args[2]];
-const file_name = Deno.args[3] || "test.json";
+const file_name = (Deno.args[3] || ".") + "/" + triplet.join("_") + ".json";
+const show_progress = !!+Deno.args[4];
 
-writeTimeSeriesJSON(file_name, await generateTimeSeriesFor(triplet));
+writeTimeSeriesJSON(
+  file_name,
+  await generateTimeSeriesFor(triplet, show_progress)
+);
