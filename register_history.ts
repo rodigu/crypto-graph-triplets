@@ -31,10 +31,13 @@ while (Date.now() - start_time <= run_length) {
   const file_name = `${dt.getFullYear()}-${pad(
     (dt.getMonth() + 1).toString(),
     2
-  )}-${pad(dt.getHours().toString(), 2)}-${pad(
-    dt.getMinutes().toString(),
+  )}-${pad((dt.getDay() + 1).toString(), 2)}-${pad(
+    dt.getHours().toString(),
     2
-  )}-${pad(dt.getSeconds().toString(), 2)}`;
+  )}-${pad(dt.getMinutes().toString(), 2)}-${pad(
+    dt.getSeconds().toString(),
+    2
+  )}`;
   Deno.writeTextFile(`./${FOLDER}/${file_name}.json`, JSON.stringify(data));
 
   console.clear();
