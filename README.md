@@ -21,7 +21,7 @@ Graph data visualizations: https://colab.research.google.com/drive/1acU5-x7wnnEv
 
 To register historical data, run the file `register_history.ts` using deno:
 
-```bash
+```
 deno run --allow-read --allow-net --allow-write register_history.ts FROM TIME DELAY FOLDER
 ```
 
@@ -32,27 +32,52 @@ Substitute the uppercase names with the following information:
 - `DELAY`: time in seconds between each data collection
 - `FOLDER`: folder where history will be registered
 
+Register history for 1440 minutes (24 hours), with a 30-second delay between each registration and writing it to the `./history_us/` folder:
+
+```
+deno run --allow-read --allow-net --allow-write register_history.ts us 1440 30 history_us
+```
+
 ### Continuous loop
 
 The file `looper.ts` will repeatedly display the top `NUM` triplets:
 
-```bash
+```
 deno run --allow-net looper.ts FROM NUM
 ```
 
 - `FROM`: `us` or `com` (US or Chinese Binance data, respectively)
 - `NUM`: number of triplets to be displayed
 
+Showing the top 10 triplets in the US Binance market:
+
+```
+deno run --allow-net looper.ts us 10
+```
+
+Showing the top 10 triplets in the world Binance market:
+
+```
+deno run --allow-net looper.ts com 10
+```
+
 ### Python TimeSeries Object
 
 You can use `read_history` to create a `JSON` file with a TimeSeries:
 
-```bash
-deno run --allow-read read_history.ts C1 C2 C3 FILE
+```
+deno run --allow-read read_history.ts C1 C2 C3 PATH SHOWP
 ```
 
 - `CN`: One of the three currencies in the triplet
-- `FILE`: name of the output file
+- `PATH`: path for output file (defaults to `./`)
+- `SHOWP`: show live progress (will slow process down), `1` for `true`, `0` for `false`
+
+Creating a history JSON file for the triplet `USD,USDT,SPELL` and writing it to the folder `./triplet_history/` without showing the process' progress:
+
+```
+deno run --allow-read --allow-write read_history.ts USD USDT SPELL triplet_history
+```
 
 Upload your file to the [`history_analysis.ipynb`](https://colab.research.google.com/drive/1xyZX4Gi8U42H3BpiDe1jkxFT48d5Civ0#scrollTo=DHHEC3z8Cz7a) Google Colab.
 Use the `plotTripletHistory(filename)` function, giving the `FILE` name for the file you uploaded.
