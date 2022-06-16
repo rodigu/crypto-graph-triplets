@@ -31,7 +31,7 @@ while (Date.now() - start_time <= run_length) {
   const file_name = `${dt.getFullYear()}-${pad(
     (dt.getMonth() + 1).toString(),
     2
-  )}-${pad((dt.getDay() + 1).toString(), 2)}-${pad(
+  )}-${pad(dt.getDate().toString(), 2)}-${pad(
     dt.getHours().toString(),
     2
   )}-${pad(dt.getMinutes().toString(), 2)}-${pad(
