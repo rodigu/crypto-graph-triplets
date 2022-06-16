@@ -10,7 +10,7 @@ export type TimeSeries = {
 Python datetime convert
 format = "%Y-%m-%H-%M-%S"
 After update
-format = "%Y-%m-%H-%d-%M-%S"
+format = "%Y-%m-%d-%H-%M-%S"
 */
 
 export async function generateTimeSeriesFor(
@@ -59,9 +59,10 @@ export async function writeTimeSeriesJSON(file_name: string, data: TimeSeries) {
 
 const triplet = [Deno.args[0], Deno.args[1], Deno.args[2]];
 const file_name = (Deno.args[3] || ".") + "/" + triplet.join("_") + ".json";
-const show_progress = !!+Deno.args[4];
+const from_file = Deno.args[4];
+const show_progress = !!+Deno.args[5];
 
 writeTimeSeriesJSON(
   file_name,
-  await generateTimeSeriesFor(triplet, show_progress)
+  await generateTimeSeriesFor(triplet, show_progress, from_file)
 );
