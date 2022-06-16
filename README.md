@@ -71,12 +71,13 @@ deno run --allow-read read_history.ts C1 C2 C3 PATH SHOWP
 
 - `CN`: One of the three currencies in the triplet
 - `PATH`: path for output file (defaults to `./`)
+- `FROM`: file to draw data from
 - `SHOWP`: show live progress (will slow process down), `1` for `true`, `0` for `false`
 
 Creating a history JSON file for the triplet `USD,USDT,SPELL` and writing it to the folder `./triplet_history/` without showing the process' progress:
 
 ```
-deno run --allow-read --allow-write read_history.ts USD USDT SPELL triplet_history
+deno run --allow-read --allow-write read_history.ts USD UST BTC triplet_history history_02 1
 ```
 
 Upload your file to the [`history_analysis.ipynb`](https://colab.research.google.com/drive/1xyZX4Gi8U42H3BpiDe1jkxFT48d5Civ0#scrollTo=DHHEC3z8Cz7a) Google Colab.
