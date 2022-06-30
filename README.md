@@ -10,6 +10,7 @@
   - [06/10](#0610)
     - [Topics](#topics)
     - [TODO](#todo)
+  - [06/29](#0629)
 
 The Python code for visualizing the network can be found in [the graphVis file](graphVis.py).
 
@@ -162,4 +163,20 @@ const tp_lst = cycles.tripletProfits(network);
 
 #### TODO
 
-- [ ] Change Colab formatting `format = "%Y-%m-%H-%d-%M-%S"`
+- [x] Change Colab formatting `format = "%Y-%m-%H-%d-%M-%S"`
+- [ ] Amount that can be fulfilled at that price
+  - [ ] Look at how much can flow into the cycle
+  - [ ] How much can you move through the cycle
+- [ ] Switch weight calculation to take buy and ask into account
+
+### 06/29
+
+- on tickerTriplets:
+
+```ts
+if (tick_map.get(vertices[index] + "" + pivot) === undefined) {
+  edge_weight = +tick_map.get(pivot + "" + vertices[index])?.bidPrice!;
+} else {
+  edge_weight = 1 / +tick_map.get(vertices[index] + "" + pivot)?.askPrice!;
+}
+```
