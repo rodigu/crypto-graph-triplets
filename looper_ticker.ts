@@ -1,6 +1,10 @@
 import * as binance from "./fetcher/binance_ticker.ts";
 
-async function loop() {
+function sleep(millis = 1000) {
+  return new Promise((resolve) => setTimeout(resolve, millis));
+}
+
+async function loop(delay = 1) {
   while (true) {
     const { network, ticker } = await binance.tickerAndNetwork();
     const tick_map = binance.getTickMap(ticker);
@@ -10,7 +14,11 @@ async function loop() {
     console.clear();
     console.log(Date.now());
     console.log(triplets.splice(triplets.length - 10, triplets.length));
+
+    await sleep(1000 * delay);
   }
 }
 
-loop();
+const delay = Deno.args[0] || 0.5;
+
+loop(+delay);
