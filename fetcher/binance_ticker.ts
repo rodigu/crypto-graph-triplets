@@ -57,16 +57,30 @@ export function tickerTriplets(args: {
     const vertices = triplet.vertex_list.map((v) => v.id);
     let pivot = vertices[0];
     let weight = 1;
+    // let tick_ask = Infinity;
+    // let ext = "";
 
     for (let i = 1; i <= vertices.length; i++) {
       const index = i % vertices.length;
 
+      // edge order vertex to pivot
+      const doPv = tick_map.get(vertices[index] + "" + pivot) === undefined;
+
       let edge_weight = 1;
-      if (tick_map.get(vertices[index] + "" + pivot) === undefined) {
-        edge_weight = +tick_map.get(pivot + "" + vertices[index])?.bidPrice!;
+
+      const avgTickEdge = (te: Tick) => (+te?.askPrice + +te?.bidPrice) / 2;
+
+      if (doPv) {
+        // const temp = +tick_map.get(pivot + "" + vertices[index])!.askQty;
+        // tick_ask = temp < tick_ask ? temp : tick_ask;
+        // ext = temp === tick_ask ? pivot + "" + vertices[index] : ext;
+        edge_weight = avgTickEdge(tick_map.get(pivot + "" + vertices[index])!);
       } else {
+        // const temp = +tick_map.get(vertices[index] + "" + pivot)!.bidQty;
+        // tick_ask = temp < tick_ask ? temp : tick_ask;
+        // ext = temp === tick_ask ? vertices[index] + "" + pivot : ext;
         edge_weight =
-          1 / +tick_map.get(vertices[index] + "" + pivot)?.askPrice!;
+          1 / avgTickEdge(tick_map.get(vertices[index] + "" + pivot)!);
       }
 
       weight *= edge_weight;
