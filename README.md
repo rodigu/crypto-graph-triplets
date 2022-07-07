@@ -11,6 +11,9 @@
     - [Topics](#topics)
     - [TODO](#todo)
   - [06/29](#0629)
+    - [TODO](#todo-1)
+  - [07/07](#0707)
+    - [TODO](#todo-2)
 
 The Python code for visualizing the network can be found in [the graphVis file](graphVis.py).
 
@@ -180,3 +183,25 @@ if (tick_map.get(vertices[index] + "" + pivot) === undefined) {
   edge_weight = 1 / +tick_map.get(vertices[index] + "" + pivot)?.askPrice!;
 }
 ```
+
+#### TODO
+
+- [x] percentage of bid/ask
+  - [x] average between the two
+
+### 07/07
+
+- definitions for
+  - reciprocally bidirecteed
+    - haven't seen many uses for bidirected graphs
+  - distance from being a split-graph
+    - how many edges to be removed so the network becomes split
+    - [almost-split graphs](https://www.graphclasses.org/classes/gc_1036.html) remove a vertex, not an edge
+- algorithms for cycle-finding in a split graph
+-
+
+#### TODO
+
+- [ ] minimum ask price and ask qtt
+- [ ] how long triplets stay for
+- [ ] overleaf
